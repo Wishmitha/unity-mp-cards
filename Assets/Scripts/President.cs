@@ -10,6 +10,9 @@ public class President : MonoBehaviour
     public static string[] values = new string[] {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
 
     private List<string> deck;
+    private List<List<string>> cards;
+
+    //List<GameObject>[,] Grid = new List<GameObject>[Layers, Width, Height];
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +30,9 @@ public class President : MonoBehaviour
     {
         deck = GenerateDeck();
         deck.ShuffleCards();
+        DivideCards();
 
-        foreach (string card in deck)
+        foreach (string card in cards[0])
         {
             print(card);
         }
@@ -51,4 +55,21 @@ public class President : MonoBehaviour
         return deck;
     }
 
+    public void DivideCards()
+    {
+        cards = new List<List<string>>();
+
+        for (int i=0; i < no_players; i++)
+        {
+            cards.Add(new List<string>());
+        }
+
+        int card_no = 0;
+
+        foreach (string card in deck)
+        {
+            cards[card_no % no_players].Add(card);
+            card_no++;
+        }
+    }
 }
